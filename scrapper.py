@@ -131,7 +131,7 @@ def scrape_medium_content(url):
         with open("context.txt", "w+", encoding='utf-8') as file:
             try:
                 file.write(specific_id_content)
-                return article_content
+                return specific_id_content
             except Exception as error:
                 file.write('ERROR occured: ' + str(error) + '\n')
             
