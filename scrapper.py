@@ -10,13 +10,36 @@ import re
 import wikipediaapi
 import requests
 from bs4 import BeautifulSoup
+from PyPDF2 import PdfReader
 
 def getcontext(url):
     if("wikipedia" in url): return getcontext_wikipedia(url)
     elif("medium" in url): return getcontext_medium(url)
     elif("geeksforgeeks" in url): return scrape_geekforgeeks_content(url)
     elif("hindustantimes" in url): return scrape_hindustantimes_content(url)
+    elif(".pdf" in url): return getcontext_pdf(url)
     else: return "-ERROR-"
+    
+# PDF FETCH & REQUEST:
+def getcontext_pdf(url):
+    # url = ":".join(url.split(":")[1:])
+    response = requests.get(url)
+    open("resource.pdf", "wb").write(response.content)
+    
+    text = ""
+    
+    reader = PdfReader("./resource.pdf")
+    for page in reader.pages:
+        text += page.extract_text()
+    
+    with open("context.txt", "w+", encoding='utf-8') as file:
+        try:
+            file.write(text)
+            return main_content.text
+        except Exception as error:
+            file.write('ERROR PARSING PDF: ' + str(error) + '\n')
+            
+    return True
 
 def getcontext_wikipedia(url):
     topic = url.split("/")[-1]
@@ -148,4 +171,3 @@ def scrape_hindustantimes_content(url):
     else:
         print(f"Failed to fetch the page. Status code: {response.status_code}")
         return None
-
