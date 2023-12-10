@@ -1,1 +1,1 @@
-https://www2.cs.uh.edu/~ceick/ai/CNN_Reading_Material.pdf
+https://medium.com/@draj0718/convolutional-neural-networks-cnn-architectures-explained-716fb197b243--s

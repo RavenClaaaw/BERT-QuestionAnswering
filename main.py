@@ -9,8 +9,7 @@ model_id = "distilbert-base-cased-distilled-squad"
 model = pipeline("question-answering", model=model_id)
 
 import nltk
-nltk.download('punkt')
-nltk.download('wordnet')
+# nltk.download('punkt')
 
 import time
 
@@ -78,7 +77,7 @@ def getanswer(page = d_website, question = d_question):
     return solution
     
 visited = ""
-with open("session.txt", "r") as file: visited = file.read()
+with open("session.txt", "r", encoding="utf-8") as file: visited = file.read()
 
 context = ""
 answer = ""
@@ -96,6 +95,6 @@ if st.button("Process") and site is not None and question is not None:
     context = scrapper.getcontext(site)
     with open("session.txt", "w+") as file: file.write(site)
   
-  with open("context.txt", "r") as file: context = file.read()
+  with open("context.txt", "r", encoding="utf-8") as file: context = file.read()
   answer = getanswer(context.lower(), question.lower())
   print(answer)
