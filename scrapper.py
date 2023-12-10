@@ -14,7 +14,11 @@ from PyPDF2 import PdfReader
 
 def getcontext(url):
     if("wikipedia" in url): return getcontext_wikipedia(url)
-    elif("medium" in url): return getcontext_medium(url)
+    elif("medium" in url): 
+        if("--s" in url): 
+            url = url.split("--s")[0]
+            return getcontext_medium(url)
+        else: return scrape_medium_content(url)
     elif("geeksforgeeks" in url): return scrape_geekforgeeks_content(url)
     elif("hindustantimes" in url): return scrape_hindustantimes_content(url)
     elif(".pdf" in url): return getcontext_pdf(url)
@@ -35,10 +39,12 @@ def getcontext_pdf(url):
     with open("context.txt", "w+", encoding='utf-8') as file:
         try:
             file.write(text)
-            return main_content.text
+            # return text
+            return True
         except Exception as error:
             file.write('ERROR PARSING PDF: ' + str(error) + '\n')
             
+    # return text
     return True
 
 def getcontext_wikipedia(url):
@@ -54,7 +60,8 @@ def getcontext_wikipedia(url):
         except Exception as error:
             file.write('ERROR occured: ' + str(error) + '\n')
                 
-    return page.text
+    # return page.text
+    return True
     
 
 def getcontext_medium(site):
@@ -107,25 +114,33 @@ def getcontext_medium(site):
     except NoSuchElementException:
         print("Could not find the main content element")
 
-# def scrape_medium_content(url):
-#     # Send a GET request to the provided URL
-#     URL_Extension = 'http://webcache.googleusercontent.com/search?q=cache:' + url
-#     response = requests.get(URL_Extension)
+def scrape_medium_content(url):
+    # Send a GET request to the provided URL
+    URL_Extension = 'http://webcache.googleusercontent.com/search?q=cache:' + url
+    response = requests.get(URL_Extension)
 
-#     if response.status_code == 200:
-#         # Parse the HTML content using BeautifulSoup
-#         soup = BeautifulSoup(response.content, 'html.parser')
+    if response.status_code == 200:
+        # Parse the HTML content using BeautifulSoup
+        soup = BeautifulSoup(response.content, 'html.parser')
 
-#         # Find the body tag and extract its content
-#         # Using find with XPath
-#         #xpath_expression = '//*[@id="bN015htcoyT__google-cache-hdr"]/div[2]/span/span[2]/a'
-#         specific_id_content = soup.find(id='root').get_text()
-#         #element_with_xpath = soup.find('div', {'class': xpath_expression}).get_text()
-#         return specific_id_content
+        # Find the body tag and extract its content
+        # Using find with XPath
+        #xpath_expression = '//*[@id="bN015htcoyT__google-cache-hdr"]/div[2]/span/span[2]/a'
+        specific_id_content = soup.find(id='root').get_text()
+        #element_with_xpath = soup.find('div', {'class': xpath_expression}).get_text()
+        with open("context.txt", "w+", encoding='utf-8') as file:
+            try:
+                file.write(specific_id_content)
+                return article_content
+            except Exception as error:
+                file.write('ERROR occured: ' + str(error) + '\n')
+            
+            # return specific_id_content
+            return True
     
-#     else:
-#         print(f"Failed to fetch the page. Status code: {response.status_code}")
-#         return None
+    else:
+        print(f"Failed to fetch the page. Status code: {response.status_code}")
+        return None
 
 def scrape_geekforgeeks_content(url):
     # Send a GET request to the provided URL
@@ -136,12 +151,13 @@ def scrape_geekforgeeks_content(url):
         soup = BeautifulSoup(response.content, 'html.parser')
 
         # Find the body tag and extract its content
-        article_content = soup.find('article').get_text()
+        text = soup.find('article').get_text()
 
         with open("context.txt", "w+", encoding='utf-8') as file:
             try:
-                file.write(article_content)
-                return article_content
+                file.write(text)
+                # return text
+                return True
             except Exception as error:
                 file.write('ERROR occured: ' + str(error) + '\n')
 
@@ -165,7 +181,8 @@ def scrape_hindustantimes_content(url):
         with open("context.txt", "w+", encoding='utf-8') as file:
             try:
                 file.write(hindustan_content)
-                return hindustan_content
+                # return hindustan_content
+                return True
             except Exception as error:
                 file.write('ERROR occured: ' + str(error) + '\n')    
     else:

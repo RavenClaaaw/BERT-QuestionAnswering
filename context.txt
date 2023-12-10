@@ -1,367 +1,716 @@
-
-
-
-
-Introduction to Convolution Neural Network
-
-
-
-
-
-
-Read
-
-
-Discuss
-
-
-Courses
-
-
-Practice
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Improve Article
-
-
-
-Improve
-
-
-
-
-
-Save Article
-
-
-
-Save
-
-
-
-
-
-Like Article
-
-
-
-Like
-
-
-
-
-
-
-
-A Convolutional Neural Network (CNN) is a type of Deep Learning neural network architecture commonly used in Computer Vision. Computer vision is a field of Artificial Intelligence that enables a computer to understand and interpret the image or visual data. 
-When it comes to Machine Learning, Artificial Neural Networks perform really well. Neural Networks are used in various datasets like images, audio, and text. Different types of Neural Networks are used for different purposes, for example for predicting the sequence of words we use Recurrent Neural Networks more precisely an LSTM, similarly for image classification we use Convolution Neural networks. In this blog, we are going to build a basic building block for CNN.
-In a regular Neural Network there are three types of layers:
-
-Input Layers: It’s the layer in which we give input to our model. The number of neurons in this layer is equal to the total number of features in our data (number of pixels in the case of an image).
-Hidden Layer: The input from the Input layer is then fed into the hidden layer. There can be many hidden layers depending on our model and data size. Each hidden layer can have different numbers of neurons which are generally greater than the number of features. The output from each layer is computed by matrix multiplication of the output of the previous layer with learnable weights of that layer and then by the addition of learnable biases followed by activation function which makes the network nonlinear.
-Output Layer: The output from the hidden layer is then fed into a logistic function like sigmoid or softmax which converts the output of each class into the probability score of each class.
-
-The data is fed into the model and output from each layer is obtained from the above step is called feedforward, we then calculate the error using an error function, some common error functions are cross-entropy, square loss error, etc. The error function measures how well the network is performing. After that, we backpropagate into the model by calculating the derivatives. This step is called Backpropagation which basically is used to minimize the loss.
-Convolution Neural Network
-Convolutional Neural Network (CNN) is the extended version of artificial neural networks (ANN) which is predominantly used to extract the feature from the grid-like matrix dataset. For example visual datasets like images or videos where data patterns play an extensive role.
-CNN architecture
-Convolutional Neural Network consists of multiple layers like the input layer, Convolutional layer, Pooling layer, and fully connected layers. 
-Simple CNN architecture
-The Convolutional layer applies filters to the input image to extract features, the Pooling layer downsamples the image to reduce computation, and the fully connected layer makes the final prediction. The network learns the optimal filters through backpropagation and gradient descent.
-How Convolutional Layers works
-Convolution Neural Networks or covnets are neural networks that share their parameters. Imagine you have an image. It can be represented as a cuboid having its length, width (dimension of the image), and height (i.e the channel as images generally have red, green, and blue channels). 
-
-Now imagine taking a small patch of this image and running a small neural network, called a filter or kernel on it, with say, K outputs and representing them vertically. Now slide that neural network across the whole image, as a result, we will get another image with different widths, heights, and depths. Instead of just R, G, and B channels now we have more channels but lesser width and height. This operation is called Convolution. If the patch size is the same as that of the image it will be a regular neural network. Because of this small patch, we have fewer weights. 
-Image source: Deep Learning Udacity
-Now let’s talk about a bit of mathematics that is involved in the whole convolution process. 
-
-Convolution layers consist of a set of learnable filters (or kernels) having small widths and heights and the same depth as that of input volume (3 if the input layer is image input).
-For example, if we have to run convolution on an image with dimensions 34x34x3. The possible size of filters can be axax3, where ‘a’ can be anything like 3, 5, or 7 but smaller as compared to the image dimension.
-During the forward pass, we slide each filter across the whole input volume step by step where each step is called stride (which can have a value of 2, 3, or even 4 for high-dimensional images) and compute the dot product between the kernel weights and patch from input volume.
-As we slide our filters we’ll get a 2-D output for each filter and we’ll stack them together as a result, we’ll get output volume having a depth equal to the number of filters. The network will learn all the filters.
-
-Layers used to build ConvNets
-A complete Convolution Neural Networks architecture is also known as covnets. A covnets is a sequence of layers, and every layer transforms one volume to another through a differentiable function. Types of layers: datasetsLet’s take an example by running a covnets on of image of dimension 32 x 32 x 3. 
-
-Input Layers: It’s the layer in which we give input to our model. In CNN, Generally, the input will be an image or a sequence of images. This layer holds the raw input of the image with width 32, height 32, and depth 3.
-Convolutional Layers: This is the layer, which is used to extract the feature from the input dataset. It applies a set of learnable filters known as the kernels to the input images. The filters/kernels are smaller matrices usually 2×2, 3×3, or 5×5 shape. it slides over the input image data and computes the dot product between kernel weight and the corresponding input image patch. The output of this layer is referred ad feature maps. Suppose we use a total of 12 filters for this layer we’ll get an output volume of dimension 32 x 32 x 12.
-Activation Layer: By adding an activation function to the output of the preceding layer, activation layers add nonlinearity to the network. it will apply an element-wise activation function to the output of the convolution layer. Some common activation functions are RELU: max(0, x),  Tanh, Leaky RELU, etc. The volume remains unchanged hence output volume will have dimensions 32 x 32 x 12.
-Pooling layer: This layer is periodically inserted in the covnets and its main function is to reduce the size of volume which makes the computation fast reduces memory and also prevents overfitting. Two common types of pooling layers are max pooling and average pooling. If we use a max pool with 2 x 2 filters and stride 2, the resultant volume will be of dimension 16x16x12. 
-
-Image source: cs231n.stanford.edu
-
-Flattening: The resulting feature maps are flattened into a one-dimensional vector after the convolution and pooling layers so they can be passed into a completely linked layer for categorization or regression.
-Fully Connected Layers: It takes the input from the previous layer and computes the final classification or regression task.
-
-Image source: cs231n.stanford.edu
-
-Output Layer: The output from the fully connected layers is then fed into a logistic function for classification tasks like sigmoid or softmax which converts the output of each class into the probability score of each class.
-
-Example:
-Let’s consider an image and apply the convolution layer, activation layer, and pooling layer operation to extract the inside feature.
-Input image:
-Input image
-Step:
-
-import the necessary libraries
-set the parameter
-define the kernel
-Load the image and plot it.
-Reformat the image 
-Apply convolution layer operation and plot the output image.
-Apply activation layer operation and plot the output image.
-Apply pooling layer operation and plot the output image.
-
-
-
-Python3
-
-
-
-
-
-
-
-
-
- 
-
-
- 
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-# import the necessary libraries
-import numpy as np
-import tensorflow as tf
-import matplotlib.pyplot as plt
-from itertools import product
- 
-# set the param 
-plt.rc('figure', autolayout=True)
-plt.rc('image', cmap='magma')
- 
-# define the kernel
-kernel = tf.constant([[-1, -1, -1],
-                    [-1,  8, -1],
-                    [-1, -1, -1],
-                   ])
- 
-# load the image
-image = tf.io.read_file('Ganesh.jpg')
-image = tf.io.decode_jpeg(image, channels=1)
-image = tf.image.resize(image, size=[300, 300])
- 
-# plot the image
-img = tf.squeeze(image).numpy()
-plt.figure(figsize=(5, 5))
-plt.imshow(img, cmap='gray')
-plt.axis('off')
-plt.title('Original Gray Scale image')
-plt.show();
- 
- 
-# Reformat
-image = tf.image.convert_image_dtype(image, dtype=tf.float32)
-image = tf.expand_dims(image, axis=0)
-kernel = tf.reshape(kernel, [*kernel.shape, 1, 1])
-kernel = tf.cast(kernel, dtype=tf.float32)
- 
-# convolution layer
-conv_fn = tf.nn.conv2d
- 
-image_filter = conv_fn(
-    input=image,
-    filters=kernel,
-    strides=1, # or (1, 1)
-    padding='SAME',
-)
- 
-plt.figure(figsize=(15, 5))
- 
-# Plot the convolved image
-plt.subplot(1, 3, 1)
- 
-plt.imshow(
-    tf.squeeze(image_filter)
-)
-plt.axis('off')
-plt.title('Convolution')
- 
-# activation layer
-relu_fn = tf.nn.relu
-# Image detection
-image_detect = relu_fn(image_filter)
- 
-plt.subplot(1, 3, 2)
-plt.imshow(
-    # Reformat for plotting
-    tf.squeeze(image_detect)
-)
- 
-plt.axis('off')
-plt.title('Activation')
- 
-# Pooling layer
-pool = tf.nn.pool
-image_condense = pool(input=image_detect, 
-                             window_shape=(2, 2),
-                             pooling_type='MAX',
-                             strides=(2, 2),
-                             padding='SAME',
-                            )
- 
-plt.subplot(1, 3, 3)
-plt.imshow(tf.squeeze(image_condense))
-plt.axis('off')
-plt.title('Pooling')
-plt.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Output:
-Original Grayscale imageOutput
-Advantages of Convolutional Neural Networks (CNNs):
-
-Good at detecting patterns and features in images, videos, and audio signals.
-Robust to translation, rotation, and scaling invariance.
-End-to-end training, no need for manual feature extraction.
-Can handle large amounts of data and achieve high accuracy.
-
-Disadvantages of Convolutional Neural Networks (CNNs):
-
-Computationally expensive to train and require a lot of memory.
-Can be prone to overfitting if not enough data or proper regularization is used.
-Requires large amounts of labeled data.
-Interpretability is limited, it’s hard to understand what the network has learned.
-
-Frequently Asked Questions (FAQs)
-1: What is a Convolutional Neural Network (CNN)?
-
-A Convolutional Neural Network (CNN) is a type of deep learning neural network that is well-suited for image and video analysis. CNNs use a series of convolution and pooling layers to extract features from images and videos, and then use these features to classify or detect objects or scenes.
-
-2: How do CNNs work? 
-
-CNNs work by applying a series of convolution and pooling layers to an input image or video. Convolution layers extract features from the input by sliding a small filter, or kernel, over the image or video and computing the dot product between the filter and the input. Pooling layers then downsample the output of the convolution layers to reduce the dimensionality of the data and make it more computationally efficient.
-
-3: What are some common activation functions used in CNNs?
-
-Some common activation functions used in CNNs include:
-
-Rectified Linear Unit (ReLU): ReLU is a non-saturating activation function that is computationally efficient and easy to train.
-Leaky Rectified Linear Unit (Leaky ReLU): Leaky ReLU is a variant of ReLU that allows a small amount of negative gradient to flow through the network. This can help to prevent the network from dying during training.
-Parametric Rectified Linear Unit (PReLU): PReLU is a generalization of Leaky ReLU that allows the slope of the negative gradient to be learned.
-
-
-4: What is the purpose of using multiple convolution layers in a CNN?
-
-Using multiple convolution layers in a CNN allows the network to learn increasingly complex features from the input image or video. The first convolution layers learn simple features, such as edges and corners. The deeper convolution layers learn more complex features, such as shapes and objects.
-
-5: What are some common regularization techniques used in CNNs?
-
-Regularization techniques are used to prevent CNNs from overfitting the training data. Some common regularization techniques used in CNNs include:
-
-Dropout: Dropout randomly drops out neurons from the network during training. This forces the network to learn more robust features that are not dependent on any single neuron.
-L1 regularization: L1 regularization regularizes the absolute value of the weights in the network. This can help to reduce the number of weights and make the network more efficient.
-L2 regularization: L2 regularization regularizes the square of the weights in the network. This can also help to reduce the number of weights and make the network more efficient.
-
-
-6: What is the difference between a convolution layer and a pooling layer?
-
-A convolution layer extracts features from an input image or video, while a pooling layer downsamples the output of the convolution layers. Convolution layers use a series of filters to extract features, while pooling layers use a variety of techniques to downsample the data, such as max pooling and average pooling.
-
- Whether you're preparing for your first job interview or aiming to upskill in this ever-evolving tech landscape, GeeksforGeeks Courses are your key to success. We provide top-quality content at affordable prices, all geared towards accelerating your growth in a time-bound manner. Join the millions we've already empowered, and we're here to do the same for you. Don't miss out - check it out now!
-
-
-Last Updated : 
-02 Nov, 2023
-
-
-Like Article
-
-
-
-
-
-
-Save Article
-
-
-
-
-
-
-
-
-
-Previous
-
-
-
-Hyperparameter tuning
-
-
-
-
-Next
-
-
-
-
-Digital Image Processing Basics
-
-
-
-
-
-
-
- Please Login to comment...
-
-
-
-
-
-
+CHAPTER 20
+Convolutional neural networks
+Jonas Teuwena,b, Nikita Moriakova
+aRadboud University Medical Center, Department of Radiology and Nuclear Medicine, Nijmegen, the Netherlands
+bNetherlands Cancer Institute, Department of Radiation Oncology, Amsterdam, the Netherlands
+Contents
+20.1. Introduction 481
+20.2. Neural networks 482
+20.2.1 Loss function 483
+20.2.2 Backpropagation 484
+20.3. Convolutional neural networks 487
+20.3.1 Convolutions 488
+20.3.2 Nonlinearities 490
+20.3.3 Pooling layers 491
+20.3.4 Fully connected layers 492
+20.4. CNN architectures for classiﬁcation 492
+20.5. Practical methodology 495
+20.5.1 Data standardization and augmentation 495
+20.5.2 Optimizers and learning rate 496
+20.5.3 Weight initialization and pretrained networks 497
+20.5.4 Regularization 498
+20.6. Future challenges 499
+References 500
+20.1. Introduction
+Convolutional neural networks (CNNs) – or convnets , for short – have in recent years
+achieved results which were previously considered to be purely within the human
+realm. In this chapter we introduce CNNs, and for this we ﬁrst consider regular neuralnetworks, and how these methods are trained. After introducing the convolution, we
+introduce CNNs. They are very similar to the regular neural networks as they are also
+made up of neurons with learnable weights. But, in contrast to MLPs, CNNs make theexplicit assumption that inputs have speciﬁc structure like images. This allows encoding
+this property into the architecture by sharing the weights for each location in the image
+and having neurons respond only locally.
+Handbook of Medical Image Computing and Computer Assisted Intervention
+https://doi.org/10.1016/B978-0-12-816176-0.00025-9Copyright ©2020 Elsevier Inc.
+All rights reserved. 481482 Handbook of Medical Image Computing and Computer Assisted Intervention
+Figure 20.1 Schematic version of neuron.
+20.2. Neural networks
+T o understand convolutional neural networks, we need to take one step back and ﬁrst
+look into regular neural networks. Most concepts can readily be explained by usingthese simpler networks. The initial development of these networks originates in thework of Frank Rosenblatt on perceptrons and starts with the deﬁnition of a neuron.Mathematically, a neuron is a nonlinearity applied to an afﬁne function. The input
+features x
+=(x1,x2,..., xn)are passed through an afﬁne function composed with a non-
+linearity ϕ:
+T(x)=ϕ/parenleftBig/summationdisplay
+iWixi+b/parenrightBig
+=ϕ(W·x+b) (20.1)
+with given weights Wandbiasb. Schematically this is represented in Fig. 20.1.At y p i c a l
+nonlinearity, or activation function is the sigmoid deﬁned by
+σ(x)=1
+1+e−x. (20.2)
+There are many choices for such nonlinearities, and different choices will be given when
+we discuss CNNs in Sect. 20.3.2.
+Such a neural network can be modeled as a collection of neurons which are con-
+nected in an acyclic graph. That is, the output of some of the neurons become inputsto other neurons, and cycles where the output of a neuron maps back to an earlierintermediate input are forbidden. Commonly such neurons are organized in layers ofneurons. Such a network consists of an input layer, one or more hidden layers, and an
+output layer. In contrast to the hidden layers, the output layer usually does not haveConvolutional neural networks 483
+Figure 20.2 A 3-layer neural network with three inputs, two hidden layers of respectively 5 and 3 neu-
+rons, and one output layer. Notice that in both cases there are connections between neurons across
+layers, but not within a layer.
+an activation function. Such networks are usually referred to as Multilinear Perceptron
+(MLP) or less commonly as Artiﬁcial Neural Network (ANN). If we want to be more
+explicit about the number of layers, we could refer to such a network as an N-layer
+network where Ncounts the number of layers, excluding the input layer. An example
+of this is given in Fig. 20.2. T o use a neural network for prediction, we need to ﬁnd
+the proper values for the parameters (W,b)and deﬁne a function to map the output
+of the neural network to a prediction; this could, for instance, be a class (i.e., malignant
+or benign) or a real value in the case of a regression problem. These parameters are theso-called trainable parameters, and the number of these parameters serves as a metric for
+the size (or capacity) of the neural network. In the example of Fig. 20.2, there are in
+total 8 neurons, where the hidden layers have 3
+·5a n d5 ·3w e i g h t s ,a n d5a n d3b i a s e s ,
+respectively. The output layer has 3 weights and 1 bias. In total this network has 27learnable parameters. In modern neural network architectures, these numbers can runinto the millions.
+As mentioned, the output layer most commonly does not have an activation function
+because the output layer is often used to represent, for instance, class scores through asoftmax function, which we will discuss in more detail below or some other real-valuedtarget in the case of regression.
+20.2.1 Loss function
+Depending on a task, neural networks can be trained in a supervised or unsupervisedway. For the type of tasks most frequently encountered in medical imaging, we are typ-ically working with discriminative models, meaning that we have two spaces of objectsX(“the inputs”) and Y(“the labels”) and we would like to learn a neural network f
+θ484 Handbook of Medical Image Computing and Computer Assisted Intervention
+with parameters θ, the hypothesis, which outputs an object in Yg i v e na no b j e c ti n X,
+orfθ:X→Y. T o do this, we have a training set of size mat our disposal (Xi,yi)m
+i=1
+where Xiis the input, for instance, an image, and yiis the corresponding label. T o put
+it differently, yiis the response we expect from the model gθwithXias input.
+Putting this more formally, we assume there is a joint probability distribution P(x,y)
+over X×Yand that the training set consists out of msamples (Xi,yi)m
+i=1independently
+drawn from P(x,y). In this formality, yis a random variable with conditional probability
+P(y|x). T o formulate the training problem, we assume there is a nonnegative real-valued
+loss function Lwhich can measure how far the prediction of the hypothesis ypredfrom
+the real value yis. The risk associated with the hypothesis gθis deﬁned as the expectation
+of the loss function
+R(gθ)=E(X,y)∼P( x,y)[L(gθ(X),y)]. (20.3)
+The goal of learning is to ﬁnd parameters θsuch that Ris minimal, that is, we want to
+ﬁndθ∗such that θ∗=arg minθ∈RmR(gθ),w h e r e mis the number of parameters of the
+neural network.
+In general, the risk R(gθ)cannot be computed because the distribution P(x,y)is
+unknown. In this case we replace the expectation with the average over the training set
+to obtain the empirical risk as an approximation to the expectation:
+Remp(gθ)=1
+mm/summationdisplay
+i=1L(gθ(Xi),yi). (20.4)
+The process of minimizing the empirical risk is called empirical risk minimization .
+20.2.2 Backpropagation
+Nearly all neural networks encountered in practice are almost-everywhere differentiablewith respect to parameters
+θand are optimized with gradient-based optimization:
+∇θRemp(gθ)=[∂
+∂θ1,∂
+∂θ2,...,∂
+∂θM]Remp(gθ). (20.5)
+Backpropagation is an algorithm that allows us to compute the gradients and applygradient-based optimization schemes such as gradient descent, which is explained inmore detail in Sect. 20.5.2.
+The structure of a neural network allows for a very efﬁcient computation of the
+gradient by a process called backpropagation, which can be readily understood by applying
+the chain rule.
+For a bit more detail, consider a feedforward neural network, which accepts an
+input xwhich is propagated through the network to produce an output y.T h i sp r o c e s sConvolutional neural networks 485
+is the forward propagation step and results in a scalar loss Remp. Computing the derivative
+for such a network is straightforward, but numerically evaluating such an expression is
+not only computationally expensive, it is also sensitive to numerical rounding errors,especially for deeper networks. Using the backpropagation algorithm, we can evaluate
+this derivative in a computationally efﬁcient way with the additional advantage that the
+computations can be reused in subsequent steps. Once we have the gradient, we canapply an algorithm such as stochastic gradient descent (SGD) to compute updates to thenetwork weights.
+T o be able to understand backpropagation properly, we introduce the computation
+graph language. A computation graph is a directed graph where on each node we have
+anoperation, and an operation is a function of one or more variables and returns either a
+number, multiple numbers, or a tensor. The chain rule can now be used to compute thederivatives of functions formed by composing other functions with known derivatives.The backpropagation algorithms allows us to do this in a highly efﬁcient manner.
+Before we continue, let us recall the chain rule. For this let fand gbe real-valued
+functions. Suppose additionally that y
+=g(x)andz=f(g(x))=f(y)(i.e., two operations
+on the computation graph). The chain rule is now given by
+dz
+dx=dz
+dydy
+dx.
+The generalization to higher dimensions is trivial. Suppose now that x∈Rnandy∈Rm,
+g:Rn→Rm,a n df :Rm→R.T h e ni f y=g(x)and z=f(y),w eh a v e
+∂z
+∂xi=/summationdisplay
+j∂z
+∂yj∂yj
+∂xi. (20.6)
+Using the chain rule (20.6), the back propagation algorithm is readily explained.
+Before we proceed, we ﬁx some notation. Consider an MLP where the jth neuron in
+the/lscriptth layer has weighted output (i.e., before the activation function ϕ)z/lscript
+jand activation
+a/lscript
+j:=ϕ(z/lscript
+j). Similarly, the jth neuron in the layer /lscriptweights output of the kth neuron in
+the(/lscript−1)th by w/lscript
+kjwith corresponding bias b/lscript
+j.
+As we intend to minimize the empirical risk function Rempthrough gradient opti-
+mization, we are interested in the derivatives
+∂Remp
+∂w/lscript
+kjand∂Remp
+∂b/lscript
+j.
+These derivatives can readily be computed using the chain rule ( 20.6):
+∂Remp
+∂w/lscript
+kj=/summationdisplay
+kRemp
+∂z/lscript
+k∂z/lscript
+k
+∂w/lscript
+kj.486 Handbook of Medical Image Computing and Computer Assisted Intervention
+As
+z/lscript
+k:=/summationdisplay
+jw/lscript
+kja/lscript−1
+j+b/lscript
+k, (20.7)
+the last derivative is equal to a/lscript−1
+jwhen j=kand 0 otherwise, so,
+∂Remp
+∂w/lscript
+kj=∂Remp
+∂z/lscript
+ka/lscript−1
+j.
+U s i n gt h ec h a i nr u l ea g a i n ,w ec a ns e et h a t
+∂Remp
+∂b/lscript
+j=∂Remp
+∂z/lscript
+j.
+Using these, we can see how the backpropagation rule works by efﬁciently computing
+ε/lscript
+j:=∂Remp/∂z/lscript
+jwhere we will refer to ε/lscript
+jas the errorof the jth node in the /lscriptth layer.
+The backpropagation algorithm is an efﬁcient way to compute the error ε/lscriptiteratively
+using error ε/lscript+1, so we proceed by computing the error from the last layer L,a g a i n ,u s i n g
+the chain rule:
+εL
+j=/summationdisplay
+k∂Remp
+∂aL
+k∂aL
+k
+∂zL
+j, (20.8)
+and, when k/negationslash=L, the terms vanish and we obtain:
+εL
+j=∂Remp
+∂aLj∂aLj
+∂zLj=∂Remp
+∂aLjϕ/prime(zL
+j).
+If we can derive a rule to compute ε/lscript
+jfromε/lscript+1
+jefﬁciently, we are done. This rule can
+be found, again, through the chain rule:
+ε/lscript
+j=∂Remp
+∂z/lscript
+j=/summationdisplay
+k∂Remp
+∂z/lscript+1
+k∂z/lscript+1
+k
+∂z/lscript
+j
+=/summationdisplay
+kε/lscript+1
+k∂z/lscript+1
+k
+∂z/lscript
+j.
+Using (20.7)w ec a nc o m p u t et h el a s td e r i v a t i v ea s
+∂z/lscript+1
+k
+∂z/lscript
+j=w/lscript+1
+kjϕ/prime(z/lscript
+j),Convolutional neural networks 487
+so, the backpropagation rule becomes
+ε/lscript
+j=/summationdisplay
+kε/lscript+1
+jw/lscript+1
+kjϕ/prime(z/lscript
+j). (20.9)
+In summary, to compute the derivatives of the empirical risk Rempwith respect to the
+weights and biases, it is sufﬁcient to compute the error ε/lscript. This can be done iteratively,
+by ﬁrst computing the error for the ﬁnal layer by ( 20.8) and then proceeding to the
+input by applying ( 20.9) for each layer consecutively.
+20.3. Convolutional neural networks
+Convolutional neural networks (CNNs), or convnets for short, are a special case of feed-
+forward neural networks. They are very similar to the neural networks presented above
+in the sense that they are made up of neurons with learnable weights and biases. The
+essential difference is that the CNN architecture makes the implicit assumption that the
+input are image-like, which allows us to encode certain properties in the architecture.In particular, convolutions capture translation invariance (i.e., ﬁlters are independent of
+the location).
+This in turns makes the forward function more efﬁcient, vastly reduces the number
+of parameters, and therefore makes the network easier to optimize and less dependent
+on the size of the data.
+In contrast to regular neural networks, the layers of CNNs have neurons arranged in
+a few dimensions: channels, width, height, and number of ﬁlters in the simplest 2D case.
+A convolution neural network consists, just as an MLP , of a sequence of layers, whereevery layer transforms the activations or outputs of the previous layer through another
+differentiable function. There are several such layers employed in CNNs, and these will
+be explained in subsequent sections, however, the most common building blocks whichyou will encounter in most CNN architectures are: the convolution layer, pooling layer,and fully connected layers. In essence, these layers are like feature extractors, dimension-ality reduction and classiﬁcation layers, respectively. These layers of a CNN are stackedto form a full convolutional layer.
+Before we proceed with an overview of the different layers, we pause a bit at the
+convolution layer. Essentially, a convolution layer uses a convolutional kernel as a ﬁlterfor the input. Usually, there are many of such ﬁlters.
+During a forward pass, a ﬁlter slides across the input volume and computes the
+activation map of the ﬁlter at that point by computing the pointwise product of each
+value and adding these to obtain the activation at the point. Such a sliding ﬁlter isnaturally implemented by a convolution and, as this is a linear operator, it can be written
+as a dot-product for efﬁcient implementation.488 Handbook of Medical Image Computing and Computer Assisted Intervention
+Intuitively, this means that when training such a CNN, the network will learn ﬁlters
+that capture some kind of visual information such as an edge, orientation, and eventually,
+in a higher layer of the network, entire patterns. In each such convolution layer, we havean entire set of such ﬁlters, each of which will produce a separate activation map. These
+activation maps are stacked to obtain the output map or activation volume of this layer.
+20.3.1 Convolutions
+Mathematically, the convolution (x∗w)(a)of functions xandwis deﬁned in all dimen-
+sions as
+(x∗w)(a)=/integraldisplay
+x(t)w(a−t)da, (20.10)
+where ais inRnfor any n/greaterorequalslant1, and the integral is replaced by its higher-dimensional
+variant. T o understand the idea behind convolutions, it is interesting to pick the Gaus-
+sian function w(a)=exp(−x2)as an example. If we were taking a photo with a camera
+and shaking the camera a bit, the blurry picture would be the real picture xconvolved
+with a Gaussian function w.
+In the terminology of convolutional neural networks, xis called the input, wis called
+theﬁlterorkernel, and the output is often referred to as activation, or feature map .
+Note that we modeled the input and kernel in (20.10) as a continuous function.
+Due to the discrete nature of image sensors, this will not be the case in practice and itis more realistic to assume that parameter tisdiscrete . If we assume that this is the case,
+then we can deﬁne the discrete convolution
+(x∗w)(a)=/summationdisplay
+ax(t)w(t−a), (20.11)
+where aruns over all values in the space, and can be in any dimension. In deep learn-
+ing, usually xis a multidimensional array of data and the kernel winvolves learnable
+parameters and usually has ﬁnite support, that is, there are only ﬁnitely many values a
+for which w(a)is nonzero. This means that we can implement (20.11)a saﬁ n i t es u m -
+mation. The deﬁnition of ( 20.11) is independent of dimension, but in medical imaging
+we will mainly be working with 2- or 3-dimensional convolutions:
+(I∗K)(i,j)=/summationdisplay
+m/summationdisplay
+nI(m,n)K(i−m,j−n), (20.12)
+or
+(I∗K)(i,j,k)=/summationdisplay
+m/summationdisplay
+n/summationdisplay
+/lscriptI(m,n,/lscript)K(i−m,j−n,k−/lscript). (20.13)Convolutional neural networks 489
+The convolutions (20.10)a n d( 20.11) are commutative, which means that I∗K=K∗I,
+so that we can also write ( 20.12)a s
+(I∗K)(i,j)=/summationdisplay
+m/summationdisplay
+nI(i−m,j−n)K(m,n). (20.14)
+AsKhas ﬁnite support, this a priori inﬁnite sum becomes ﬁnite. Some neural network
+libraries also implement an operation called the cross-correlation, but from a deep learning
+perspective these operations are equivalent, as one weight set can be directly translated
+into the other.
+Convolutions as an inﬁnitely strong priors
+As a convolution is a linear transformation, it can be written in the form of w·x+b
+and therefore as a fully connected layer. However, as the kernels are often much smallerthan the input, only a small number of inputs will interact with the output (the so-calledreceptive ﬁeld ), and the weight tensor wwill be very sparse. Additionally, the weight tensor
+will contain many similar elements, caused by the fact that the kernel is applied to everylocation in the input. This effect is referred to as weight sharing ,a n d ,t o g e t h e rw i t ht h e
+sparsity, this not only means that we need to store fewer parameters, which improvesboth the memory requirements and statistical efﬁciency, but additionally puts a prior onthe weights: we implicitly assume that a ﬁlter, such as an edge ﬁlter, can be relevant toevery part of the image and that most interactions between pixels are local. For mostimages, this is deﬁnitely a reasonable assumption, but this can break down in the case ofother type of image data such a CT sinograms or MRI k-space where local information
+in the imaging domain can translate to global information in the acquisition space.Sometimes, we refer to this by saying that a convolution is an inﬁnitely strong prior in
+contrast to weaker priors such as
+/lscriptp-regularization discussed below.
+Much research has gone into adapting convolutions and imposing new strong priors,
+for instance, the group convolution [1] additionally enforces a certain symmetry group to
+hold for the image. Further discussion of this topic is beyond the scope of this chapter.
+Equivariance
+Next to sparsity and weight sharing, convolutions put another prior on the kernelweights in the form of translation equivariance, which to a translation (for instance,shifting) of the convolution means that if we apply a translation to the image, and thenapply convolutions, we obtain the same result as ﬁrst applying the convolution and thentranslating the feature map. More speciﬁcally, an operator Tis said to be equivariant
+with respect to fif for each xwe have T
+(f(x))=f(T(x)). Translation equivariance is a
+sensible assumption for images, as the features to detect an object in the image shouldonly depend on the object itself and not on its precise location.490 Handbook of Medical Image Computing and Computer Assisted Intervention
+20.3.2 Nonlinearities
+Nonlinearities are essential for neural network design: without nonlinearities a neural
+network would compute a linear function of its input, which is too restrictive. Thechoice of a nonlinearity can have a large impact on the training speed of a neural
+network.
+sigmoid This nonlinearity is deﬁned as
+σ(x)=1
+1+e−x,x∈R. (20.15)
+It is easy to show that σ(x)∈(0,1)for all x∈R. Furthermore, σis monotone
+increasing, limx→∞σ(x)=1a n d limx→−∞σ(x)=0.
+This makes the sigmoid nonlinearity suitable when the goal is to produce outputs
+contained in the [0,1]range, such as probabilities or normalized images. One
+can also show that limx→∞σ/prime(x)=limx→−∞σ/prime(x)=0. This fact implies that the sigmoid
+nonlinearity may lead to vanishing gradients : when the input xto the sigmoid is far
+from zero, the neuron will saturate and the gradient of σ(x)with respect to xwill
+be close to zero, which will make successive optimization hard. This is the reasonwhy sigmoid nonlinearities are rarely used in the intermediate layers of CNNs.
+tanh The tanhnonlinearity is deﬁned as
+tanh(x)=ex−e−x
+ex+e−x,x∈R. (20.16)
+It is easy to show that tanh(x)∈(−1,1)for all x∈R. Furthermore, tanhis mono-
+tone increasing, limx→∞tanh(x)=1a n d limx→−∞tanh(x)=−1. Similar to the sigmoid
+nonlinearity, tanhcan lead to vanishing gradients and is rarely used in intermediate
+layers of CNNs.Convolutional neural networks 491
+ReLU This nonlinearity is deﬁned as
+ReLU (x)=max(0,x), x∈R. (20.17)
+It is easy to see that ReLU/prime(x)=1f o r x>0 and that ReLU/prime(x)=0f o r x<0.
+ReLU nonlinearity generally leads to faster convergence compared to sigmoid
+ortanhnonlinearities, and it typically works well in CNNs with properly cho-
+sen weight initialization strategy and learning rate. Several modiﬁcations of ReLUactivation function such as Exponential Linear Units (ELUs) [ 2] have been pro-
+posed.
+softmax Softmax nonlinearity is more specialized compared to the general nonlinear-
+ities listed above. It is deﬁned as
+softmax
+(x)i:=exp(xi)
+n/summationtext
+j=1exp(xj),x∈Rn,
+and maps a vector x∈Rnto a probability vector of length n. The intuition be-
+hind softmax is as follows: map x/mapsto→exp(x)gives an order-preserving bijection
+between the set of real numbers Rand the set of strictly positive real numbers
+R>0, so that for any indexes i,jwe have xi<xjif and only if exp(xi)< exp(xj).
+Subsequent division byn/summationtext
+j=1exp(xj)normalizes the result, giving probability vec-
+tor as the output. This nonlinearity is used, e.g., in classiﬁcation tasks, after theﬁnal fully connected layer with noutputs in a n-class classiﬁcation problem. It
+should be noted, however, that softmax outputs do not truly model predictionuncertainty in the scenario of noisy labels (such as noisy organ segmentations in
+medical imaging).
+20.3.3 Pooling layers
+The goal of a pooling layer is to produce a summary statistic of its input and to reduce
+the spatial dimensions of the feature map (hopefully without losing essential informa-
+tion). For this the max pooling layer reports the maximal values in each rectangular
+neighborhood of each point (i,j)(or(i,j,k)for 3D data) of each input feature while
+theaverage pooling layer reports the average values. Most common form of maxpooling
+uses stride 2 together with kernel size 2, which corresponds to partitioning the featuremap spatially into a regular grid of square or cubic blocks with side 2 and taking max
+or average over such blocks for each input feature.
+While pooling operations are common building blocks of CNNs when the aim is to
+reduce the feature map spatial dimension, it should be noted that one can achieve similar
+goal by using, e.g., 3
+×3 convolutions with stride 2 if working with 2D data. In this492 Handbook of Medical Image Computing and Computer Assisted Intervention
+case one can also simultaneously double the number of ﬁlters to reduce information loss
+while at the same time aggregating higher level features. This downsampling strategy is
+used, e.g., in ResNet [3] architecture.
+20.3.4 Fully connected layers
+Fully connected layer with ninput dimensions and moutput dimensions is deﬁned as
+follows. The layer output is determined by the following parameters: the weight matrix
+W∈Mm,n(R)having mrows and ncolumns, and the bias vector b∈Rm.G i v e ni n p u t
+vector x∈Rn, the output of a fully-connected layer FC with activation function fis
+deﬁned as
+FC(x):=f(Wx+b)∈Rm. (20.18)
+In the formula above, Wxis the matrix product and the function fis applied compo-
+nentwise.
+Fully connected layers are used as ﬁnal layers in classiﬁcation problems, where a few
+(most often one or two) fully-connected layers are attached on top of a CNN. For this,the CNN output is ﬂattened and viewed as a single vector. Another example would bevarious autoencoder architectures, where FC layers are often attached to the latent codein both encoder and decoder paths of the network. When working with convolutionalneural network it is helpful to realize that for a feature map with nchannels one can
+apply a convolution ﬁlter with kernel size 1 and moutput channels, which would be
+equivalent to applying a same fully-connected layer with moutputs to each point in the
+feature map.
+20.4. CNN architectures for classiﬁcation
+Convolutional neural networks were originally introduced more than 20 years ago withthe development of the LeNet CNN architecture [ 4,5]. Originally, the applications of
+CNNs were limited to relatively simple problems like handwritten digit recognition,but in the recent years CNN-based approaches have become dominant in image clas-siﬁcation, object localization, and image segmentation tasks. This popularity can beattributed to two major factors: availability of computational resources (mostly GPUs)and data, on the one hand, and improvements in CNN architectures, on the other.
+T oday CNN architectures have been developed that are quite successful in the tasks
+of image classiﬁcation, object localization and image/instance segmentation. Below wewill discuss a few noteworthy CNN architectures for image classiﬁcation problems.
+A neural network needs to have enough expressive power, depending on the task, to
+perform well. A naive approach towards increasing the capacity is increasing the num-ber of ﬁlters in convolutional layers and the depth of the network. This approach wasConvolutional neural networks 493
+taken in the AlexNet [6] architecture, which was the ﬁrst architecture that popularized
+CNNs in computer vision by winning the ImageNet ILSVRC challenge [ 7] in 2012.
+It featured 5 convolutional layers and only feed-forward connections with the total of
+60M trainable parameters. Shortly after it was outperformed by
+•ZF Net [8] in 2013;
+GoogLeNet [9], the winning solution for the 2014 version of the challenge;
+VGG16/VGG19 [10], which scored the second-best in this challenge but showed
+better single-net performance and was conceptually simpler.
+VGG19 features 19 trainable layers connected in a feed-forward fashion, of which 16layers are convolutional and relies on 3
+×3 convolutions with stride 1 and ReLU activa-
+tions. Convolutional layers are gathered in 2 blocks of 2 layers for the ﬁrst convolutionalblocks and in 3 blocks of 4 layers for the last convolutional blocks. Maxpooling is
+performed in between the convolutional blocks, and the number of features in con-
+volutional blocks doubles after each maxpooling operation. An important difference
+between AlexNet and VGG (as well as more modern architectures) is how large effec-
+tive receptive ﬁeld size is created: AlexNet used 11
+×11 ﬁlters in its initial layer while
+VGG uses stacks of 3 ×3 ﬁlters, and it can be easily shown that this is more parameter-
+efﬁcient way of increasing receptive ﬁeld size. Compared to VGG19, GoogLeNet has
+much less trainable parameters (4M for 22 layers vs. 140M for 19 layers of VGG19)which is due to the introduction of the so-called inception module , which is a deviation
+from the standard feedforward pattern, and helps to improve parameter efﬁciency.
+However, all the architectures above still largely rely on feedforward information
+ﬂow similar to the original LeNet-5 [4,5], while the beneﬁts of these architectures
+mostly stem from their depth. Making the feedforward architectures even deeper leads
+to a number of challenges in addition to increased number of parameters. The ﬁrst
+obstacle is the problem of vanishing/exploding gradients [ 11,23,12]. This can be largely
+addressed by normalized weight initialization and intermediate normalization layers,such as Batch Normalization [ 13]. Y et another obstacle is the performance degradation
+problem [ 3]: as the depth of a feedforward neural network increases, both testing and
+training accuracies get saturated and degrade afterwards. Such performance degradation
+is not explained by overﬁtting, and indicates that such networks are generally harder
+to optimize. Alternative CNN architectures have been suggested to deal with these
+shortcomings. A common feature of such architectures is the use of skip connections,
+which carry over information directly from earlier layers into the later layers without
+passing through intermediate convolutional layers. This, supposedly, helps in general to
+prevent information from “washing out”. This general idea has been implemented in a
+number of ways.494 Handbook of Medical Image Computing and Computer Assisted Intervention
+ResNet [3] architecture, which was the basis for the
+winning solution in ILSVRC 2015 challenge [ 7], deals
+with the aforementioned issues by introducing residual
+blocks. Suppose that we are considering a residual block
+with two convolutional layers. In such a block the original
+input xgoes through the ﬁrst convolutional layer (typically
+a3×3 convolution), after that Batch Normalization is ap-
+plied and then the ReLU nonlinearity follows. The resultis fed into the next convolutional layer, after which Batch
+Normalization is performed. This gives the output F
+(x),t o
+which xis added pointwise and then ReLU nonlinearity is
+applied. The output of the block hence equals ReLU (F(x)+x). In general, ResNets are
+build out of a varying number of such residual blocks with 2–3 convolutional layers ineach block. In particular, it is interesting to note that, according to [ 3], using only a sin-
+gle convolutional layer in a residual block did not give any advantages compared to the
+plain feedforward architecture without residual connections. For feature map downsam-
+pling, convolutions with stride 2 are used, while the number of feature maps is doubledat the same time. This architecture choice allows training networks with more than a
+100 layers and no performance degradation, as is shown in [ 3]. ResNet-based architec-
+tures are often used up to this day, and several extensions were proposed as well [ 14].
+Furthermore, ResNet is often used as a CNN feature extractor for object detection and
+instance segmentation, e.g., in Mask R-CNN [ 15].
+A more recent development is the DenseNet architecture [ 16], which is build from a
+collection of dense blocks , with “transition layers” (1
+×1 convolutions and 2 ×2a v e r a g e
+pooling) to reduce the size of the feature maps in between. The main insight is thateach such dense block consist of a few “convolutional layers”, which, depending on aDenseNet variant, are either a stack of a 3
+×3 convolutional layer, Batch Normalization
+layer, and ReLU nonlinearity, or, alternatively, contain an initial 1 ×1 convolutional
+layer with Batch Normalization and ReLU nonlinearity to reduce the number of inputfeatures. Each such “convolutional layer” provides its output features to allsuccessive
+convolutional layers in the block, leading to a “dense” connectivity pattern. The outputof a dense block is the stack of all resulting feature maps and the input features, andas a result the successive dense blocks have access to these features and don’t need to
+relearn them. This architecture achieves comparable or better performance on ILSVRC
+as compared to a ResNet architecture while also using signiﬁcantly less parameters. Formore details, we refer to [ 16].Convolutional neural networks 495
+20.5. Practical methodology
+20.5.1 Data standardization and augmentation
+Prior to feeding the data to the neural network for training, some preprocessing is
+usually done. Many beginners fail to obtain reasonable results not because of the archi-
+tectures or methods or lack of regularization, but instead because they simply did not
+normalize and visually inspect their data. T wo most important forms of pre-processingaredata standardization and dataset augmentation. There are a few data standardization
+techniques common in imaging.
+Mean subtraction. During mean subtraction, the mean of every channel is com-
+puted over the training dataset, and these means are subtracted channelwise fromboth the training and the testing data.
+Scaling. Scaling amounts to computing channelwise standard deviations across the
+training dataset, and dividing the input data channelwise by these values so as to
+obtain a distribution with standard deviation equal to 1 in each channel. In place of
+division by standard deviation one can divide, e.g., by 95-percentile of the absolute
+value of a channel.
+Specialized methods. In addition to these generic methods, there are also some
+specialized standardization methods for medical imaging tasks, e.g., in chest X-rayone has to work with images coming from different vendors, furthermore, X-ray
+tubes might be deteriorating. In [17] local energy-based normalization was inves-
+tigated for chest X-ray images, and it was shown that this normalization technique
+improves model performance on supervised computer-aided detection tasks. For
+another example, when working with hematoxylin and eosin (H&E) stained histo-
+logical slides, one can observe variations in color and intensity in samples coming
+from different laboratories and performed on different days of the week. These
+variations can potentially reduce the effectiveness of quantitative image analysis.
+A normalization algorithm speciﬁcally designed to tackle this problem was sug-
+gested in [18], where it was also shown that it improves the performance for a
+few computer-aided detection tasks on these slide images. Finally, in certain sce-
+narios (e.g., working directly with raw sinogram data for CT or Digital Breast
+T omosynthesis [19]) it is reasonable to take log-transform of the input data as an
+extra preprocessing step.
+Neural networks are known to beneﬁt from large amounts of training data, and it
+is a common practice to artiﬁcially enlarge an existing dataset by adding data to it in aprocess called “ augmentation ”. We distinguish between train-time augmentation and test-
+time augmentation, and concentrate on the ﬁrst for now (which is also more common).In case of train-time augmentation, the goal is to provide a larger training dataset to the
+algorithm. In a supervised learning scenario, we are given a dataset
+Dconsisting of pairs
+(xj,yj)of a training sample xj∈Rdand the corresponding label yj. Given the dataset D,496 Handbook of Medical Image Computing and Computer Assisted Intervention
+one should design transformations T1,T2,..., Tn:Rd→Rdwhich are label-preserving
+in a sense that for every sample (xj,yj)∈Dand every transformation Tithe resulting
+vector Tixjstill looks like a sample from Dwith label yj. Multiple transformations can
+be additionally stacked, resulting in greater number of new samples. The resulting new
+samples with labels assigned to them in this way are added to the training dataset andoptimization as usual is performed. In case of the test-time augmentation the goal is toimprove test-time performance of the model as follows. For a predictive model f,g i v e n
+a test sample x
+∈Rd, one computes the model predictions f(x),f(T1x),..., f(Tnx)for
+different augmenting transformations and aggregates these predictions in a certain way(e.g., by averaging softmax-output from classiﬁcation layer [ 6]). In general, choice of
+the augmenting transformation depends on the dataset, but there are a few commonstrategies for data augmentation in imaging tasks:
+Flipping. Image xis mirrored in one or two dimensions, yielding one or two
+additional samples. Flipping in horizontal dimension is commonly done, e.g., on theImageNet dataset [ 6], while on medical imaging datasets ﬂipping in both dimensions
+is sometimes used.
+Random cropping and scaling. Image xof dimensions W×His cropped to a
+random region [x1,x2]×[ y1,y2]⊆[0,W]×[0,H], and the result is interpolated to
+obtain original pixel dimensions if necessary. The size of the cropped region shouldstill be large enough to preserve enough global context for correct label assignment.
+Random rotation. An image xis rotated by some random angle ϕ(often limited
+to the set ϕ∈[π/2,π,3π/2]). This transformation is useful, e.g., in pathology, where
+rotation invariance of samples is observed; however, it is not widely used on datasetslike ImageNet.
+Gamma transform. A grayscale image xis mapped to image xγforγ>0, where
+γ=1 corresponds to identity mapping. This transformation in effect adjusts the
+contrast of an image.
+Color augmentations. Individual color channels of the image are altered in order
+to capture certain invariance of classiﬁcation with respect to variation in factors
+such as intensity of illumination or its color. This can be done, e.g., by adding small
+random offsets to individual channel values; an alternative scheme based on PCAcan be found in [ 6].
+20.5.2 Optimizers and learning rate
+As discussed above, the optimization goal when training neural networks is minimiza-
+tion of the empirical risk Remp. This is done by, ﬁrstly, computing the gradient ∇θRemp
+of the risk on a minibatch of training data with respect to the neural network param-
+etersθusing backpropagation, and, secondly, updating the neural network weights θ
+accordingly. This update in its most basic form of stochastic gradient descent is given by theConvolutional neural networks 497
+formula
+θ:=θ−η·∇θRemp,
+where η>0 is the hyperparameter called the learning rate. A common extension of this
+algorithm is the addition of momentum, which in theory should accelerate the con-
+vergence of the algorithm on ﬂat parts of the loss surface. In this case, the algorithm
+remembers the previous update direction and combines it with the newly computed
+gradient to determine the new update direction:
+δθ:=α·δθ−η·∇θRemp,
+θ:=θ+δθ.
+More recent variations to stochastic gradient descent are adaptive methods such as RM-
+SProp and Adam [20], which extends RMSProp by adding momentum for the gradient
+updates. All these methods (SGD, RMSProp, Adam) are implemented in deep learning
+frameworks such as T ensorﬂow and PyT orch. Adam, in particular, is a popular choiceonce a good starting learning rate is picked. However, one should note that there is
+some recent research (see, e.g., [21]) suggesting that adaptive methods such as Adam
+and RMSProp may lead to poorer generalization and that properly tuned SGD withmomentum is a safer option.
+Choice of a proper learning rate is still driven largely by trial and error up to this
+date, including learning rate for adaptive optimizers such as Adam. This choice de-
+pends heavily on the neural network architecture, with architectures such as ResNet
+and DenseNet including Batch Normalization known to work well with relatively large
+learning rates in the order of 10
+−1, and the batch size, with larger batches allowing
+for higher learning rate and faster convergence. In general, it makes sense to pick the
+batch size as large as possible given the network architecture and image size, and then
+to choose the largest possible learning rate which allows for stable learning. If the er-
+ror keeps oscillating (instead of steadily decreasing), it is advised to reduce the initiallearning rate. Furthermore, it is common to use learning rate schedule, i.e., to change
+the learning rate during training depending on the current number of epochs and/orvalidation error. For instance, one can reduce the learning rate by a factor of 10 two
+times when the epoch count exceeds 50
+%and 75 %of the total epoch budget; or one
+can choose to decrease the learning rate once the mean error on validation dataset stops
+decreasing in the process of training.
+20.5.3 Weight initialization and pretrained networks
+It is easy to see that if two neurons (or convolutional ﬁlters) in the same place of acomputational graph have exactly the same bias and weights, then they will always498 Handbook of Medical Image Computing and Computer Assisted Intervention
+get exactly the same gradients, and hence will never be able to learn distinct features,
+and this would result in losing some expressive power of the network. The connec-
+tion between random initialization and expressive power of the network was explicitly
+examined in [22].
+T o “break the symmetry” when cold-starting the neural network training it is a
+common practice to initialize the weights randomly with zero mean and variance de-
+pending on the “input size” of the neuron [ 23,24], while biases are still initialized by
+zeros. The initialization strategy [ 24], which is more recent and was particularly de-
+rived for ReLU activations, suggests to initialize the weights by a zero-mean Gaussian
+distribution whose standard deviation equals/radicalBig
+2
+n,w h e r e nis determined as follows:
+When initializing a fully-connected layer, nequals the number of input features of
+al a y e r ;
+When initializing, e.g., a two-dimensional convolutional layer of dimension k×k
+with minput feature maps, nequals the product k2·m.
+Most practical initialization strategies such as He initialization are already implemented
+in deep learning frameworks such as PyT orch and T ensorﬂow.
+A second option to training from cold start is to use a pretrained convolutional net-
+work, stack fully connected layers with randomly initialized weights atop for a particular
+classiﬁcation task, and then ﬁne-tune the resulting network on a particular dataset. This
+strategy is motivated by the heuristic that the ImageNet dataset is fairly generic, hence
+convolutional features learned on ImageNet should be useful for other imaging datasets
+as well. Pretrained networks such as VGG, ResNet, and DenseNet variants are easyto ﬁnd online. When ﬁne-tuning a pretrained CNN for a particular classiﬁcation task,
+it often makes sense to choose a lower learning rate for updates of the convolutional
+feature extraction layers and a higher learning rate for the ﬁnal classiﬁcation layers.
+20.5.4 Regularization
+Regularization, generally speaking, is a wide range of ML techniques aimed at reducingoverﬁtting of the models while maintaining theoretical expressive power.
+L1/L2regularization. These regularization methods are one of the most well-
+known regularization methods originating in classical machine learning theory inconnection with maximum a posteriori (MAP) estimates for Laplace and Gaussian
+priors, respectively [25]. So suppose now that we have a neural network with pa-
+rameters
+θand loss function L(θ). In case of L2regularization, the termλ2
+2·/bardblθ/bardbl2
+2is
+added to the loss function; in case of L1regularization, the term λ1·/bardblθ/bardbl1is added
+instead; λ1,λ2are hyperparameters. Intuitively speaking, L2regularization encour-
+ages the network to use all of its inputs a little, rather than some of the inputs a
+lot, while L1regularization encourages the network to learn sparse weight vectors
+(which can be used, e.g., for feature selection tasks). Also L1/L2regularization is
+often already implemented in deep learning frameworks and is easy to use (e.g., inConvolutional neural networks 499
+PyT orch L2regularization is added by passing a nonzero parameter λ2to an opti-
+mizer), however, one should note that there are regularization methods speciﬁcally
+designed for neural networks which can be more effective.
+Max norm constraints. Another form of regularization is enforcing an absolute
+upper bound /bardblθ/bardbl2/lessorequalslantcon the norm of the weight. In practice, this corresponds to
+performing the parameter update as usual, and then scaling the resulting θback
+to the ball {x:/bardblx/bardbl2/lessorequalslantc}of radius c. As a consequence, this form of regularization
+prevents weights from exploding.
+Dropout. Introduced in [ 26], dropout is a very powerful and simple regularization
+method for neural networks. While training, dropout is implemented by keeping a
+neuron active with some probability p∈(0,1)(which is a hyperparameter that can
+be different for different layers) while also dividing the output activation by p,a n d
+setting it to zero otherwise. During inference, all neurons are kept active and no scal-ing is applied. Very often probabilities pare chosen in a way that early convolutional
+layers are kept intact with probabilities close or equal to 1, while the probabilityof keeping neuron active goes down for deeper layers. Activation scaling duringtraining time in this procedure is introduced in order to keep mean activations the
+same as during inference time, while saving computation cost at inference time.
+Dropout is implemented as a layer in frameworks such as PyT orch and T ensorﬂowand it is straightforward to add it to a model. Dropout is included in many classicalNN architectures for classiﬁcation and segmentation, see, e.g., [ 16]a n d[ 27]. An
+interesting recent development is the work [28], where it was shown that dropout
+training in deep neural networks can be viewed as a form of approximate Bayesian
+inference.
+20.6. Future challenges
+Despite the enormous success of CNNs in computer vision, in general, and in med-ical imaging, in particular, in recent years, there remain important challenges as well.Firstly, there is a well-known problem of the lack of interpretability of predictions. Forexample, in an image classiﬁcation problem a neural network can produce accurate pre-dictions, but the internal CNN features remain a black box and do not reveal much
+information. In medical imaging, however, we would like to know what image features
+are responsible for the prediction. Some work is done in this direction, e.g., there area few approaches to the visualization of saliency maps [ 29]. Furthermore, we would be
+interested in image features that have clear clinical interpretation, but extracting thosein an unsupervised manner is challenging.
+Secondly, there is often a problem of domain shift, which emerges when a neural
+network is trained on a dataset from one domain and then it is applied to a related, butdifferent domain. Some examples would be when500 Handbook of Medical Image Computing and Computer Assisted Intervention
+We make a model for object detection in urban scenes and train it on scenes gener-
+ated in a computer game, then try to apply it on real-life scenes [ 30];
+We have multiple vendors for, e.g., mammography scanners, which apply someamount of vendor-speciﬁc processing so that resulting images look different [ 31].
+In general, developing models that are robust to variations in acquisition equipment
+remains challenging.
+Thirdly, the neural networks remain data-hungry, and there is ongoing work on
+improving the parameter efﬁciency [1].
+References
+[1] T.S. Cohen, M. Welling, Group equivariant convolutional networks, preprint, arXiv:1602.07576,
+2016.
+[2] D.A. Clevert, T. Unterthiner, S. Hochreiter, Fast and accurate deep network learning by exponential
+linear units (ELUs), preprint, arXiv:1511.07289, 2015.
+[3] K. He, X. Zhang, S. Ren, J. Sun, Deep residual learning for image recognition, in: CVPR, IEEE
+Computer Society, 2016, pp. 770–778.
+[4] Y . LeCun, B. Boser, J.S. Denker, D. Henderson, R.E. Howard, W . Hubbard, et al., Backpropagation
+applied to handwritten zip code recognition, Neural Computation 1 (4) (1989) 541–551, https://
+doi.org/10.1162/neco.1989.1.4.541 .
+[5] Y . LeCun, L. Bottou, Y . Bengio, P . Haffner, Gradient-based learning applied to document recognition,
+Proceedings of the IEEE 86 (11) (1998) 2278–2324.
+[6] A. Krizhevsky, I. Sutskever, G.E. Hinton, Imagenet classiﬁcation with deep convolutional neural
+networks, in: F . Pereira, C.J.C. Burges, L. Bottou, K.Q. Weinberger (Eds.), Advances in Neu-
+ral Information Processing Systems, vol. 25, Curran Associates, Inc., 2012, pp. 1097–1105, http://
+papers.nips.cc/paper/4824-imagenet-classiﬁcation-with-deep-convolutional-neural-networks.pdf .
+[7] O. Russakovsky, J. Deng, H. Su, J. Krause, S. Satheesh, S. Ma, et al., ImageNet large scale visual
+recognition challenge, International Journal of Computer Vision 115 (3) (2015) 211–252, https://
+doi.org/10.1007/s11263-015-0816-y .
+[8] M.D. Zeiler, R. Fergus, Visualizing and understanding convolutional networks, CoRR, abs/1311.
+2901, 2013, URL http://dblp.uni-trier.de/db/journals/corr/corr1311.html#ZeilerF13 .
+[9] C. Szegedy, W . Liu, Y . Jia, P . Sermanet, S. Reed, D. Anguelov, et al., Going deeper with convolutions,
+in: Computer Vision and Pattern, Recognition, CVPR, 2015, preprint, arXiv:1409.4842.
+[10] K. Simonyan, A. Zisserman, Very deep convolutional networks for large-scale image recognition,
+CoRR, abs/1409.1556, 2014.
+[11] Y . Bengio, P . Simard, P . Frasconi, Learning long-term dependencies with gradient descent is difﬁcult,
+IEEE Transactions on Neural Networks 5 (2) (1994) 157–166, https://doi.org/10.1109/72.279181 .
+[12] J. Hochreiter, Untersuchungen zu dynamischen neuronalen Netzen, Diploma thesis, Institut für In-
+formatik, Lehrstuhl Prof. Brauer, T echnische Universität München, 1991.
+[13] S. Ioffe, C. Szegedy, Batch normalization: accelerating deep network training by reducing internal
+covariate shift, in: Proceedings of the 32Nd International Conference on International Conferenceon Machine Learning, ICML’15, vol. 37, JMLR.org, 2015, pp. 448–456, URL http://dl.acm.org/
+citation.cfm?id=3045118.3045167 .
+[14] S. Xie, R.B. Girshick, P . Dollár, Z. Tu, K. He, Aggregated residual transformations for deep neural
+networks, in: CVPR, IEEE Computer Society, 2017, pp. 5987–5995.
+[15] K. He, G. Gkioxari, P . Dollár, R.B. Girshick, Mask R-CNN, in: IEEE International Conference on
+Computer Vision, ICCV 2017,Venice, Italy, October 22–29, 2017, 2017, pp. 22–29.Convolutional neural networks 501
+[16] G. Huang, Z. Liu, L. van der Maaten, K.Q. Weinberger, Densely connected convolutional networks,
+in: 2017 IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2017, Honolulu,
+HI, USA, July 21–26, 2017, 2017, pp. 21–26.
+[17] R.H.H.M. Philipsen, P . Maduskar, L. Hogeweg, J. Melendez, C.I. Sánchez, B. van Ginneken, Local-
+ized energy-based normalization of medical images: application to chest radiography, IEEE Transac-
+tions on Medical Imaging 34 (9) (2015) 1965–1975, https://doi.org/10.1109/TMI.2015.2418031 .
+[18] B.E. Bejnordi, G. Litjens, N. Timofeeva, I. Otte-Höller, A. Homeyer, N. Karssemeijer, et al., Stain
+speciﬁc standardization of whole-slide histopathological images, IEEE Transactions on Medical Imag-
+ing 35 (2) (2016) 404–415, https://doi.org/10.1109/TMI.2015.2476509 .
+[19] N. Moriakov, K. Michielsen, J. Adler, R. Mann, I. Sechopoulos, J. T euwen, Deep learning framework
+for digital breast tomosynthesis reconstruction, preprint, arXiv:1808.04640, 2018.
+[20] D.P . Kingma, J. Ba, Adam: a method for stochastic optimization, preprint, arXiv:1412.6980, 2014.
+[21] A.C. Wilson, R. Roelofs, M. Stern, N. Srebro, B. Recht, The marginal value of adaptive gradient
+methods in machine learning, preprint, arXiv:1705.08292.
+[22] A. Daniely, R. Frostig, Y . Singer, T oward deeper understanding of neural networks: the power of ini-
+tialization and a dual view on expressivity, in: D.D. Lee, M. Sugiyama, U.V . Luxburg, I. Guyon,R. Garnett (Eds.), Advances in Neural Information Processing Systems, vol. 29, Curran Asso-ciates, Inc., 2016, pp. 2253–2261, http://papers.nips.cc/paper/6427-toward-deeper-understanding-
+of-neural-networks-the-power-of-initialization-and-a-dual-view-on-expressivity.pdf .
+[23] X. Glorot, Y . Bengio, Understanding the difﬁculty of training deep feedforward neural networks,
+in: Proceedings of the Thirteenth International Conference on Artiﬁcial Intelligence and Statistics,AISTATS 2010, Chia Laguna Resort, Sardinia, Italy, May 13–15, 2010, 2010, pp. 249–256, URLhttp://www.jmlr.org/proceedings/papers/v9/glorot10a.html .
+[24] K. He, X. Zhang, S. Ren, J. Sun, Delving deep into rectiﬁers: surpassing human-level performance
+on ImageNet classiﬁcation, in: Proceedings of the 2015 IEEE International Conference on Computer
+Vision, ICCV’15, IEEE Computer Society, Washington, DC, USA, ISBN 978-1-4673-8391-2, 2015,
+pp. 1026–1034.
+[25] C.M. Bishop, Pattern Recognition and Machine Learning, Information Science and Statistics,
+Springer-Verlag, Berlin, Heidelberg, ISBN 0387310738, 2006.
+[26] N. Srivastava, G. Hinton, A. Krizhevsky, I. Sutskever, R. Salakhutdinov, Dropout: a simple way to pre-
+vent neural networks from overﬁtting, Journal of Machine Learning Research 15 (2014) 1929–1958,
+URL http://jmlr.org/papers/v15/srivastava14a.html .
+[27] S. Jégou, M. Drozdzal, D. Vázquez, A. Romero, Y . Bengio, The one hundred layers Tiramisu: fully
+convolutional DenseNets for semantic segmentation, CoRR, abs/1611.09326, 2016.
+[28] Y . Gal, Z. Ghahramani, Dropout as a Bayesian approximation: representing model uncertainty in deep
+learning, preprint, arXiv:1506.02142, 2015.
+[29] K. Simonyan, A. Vedaldi, A. Zisserman, Deep inside convolutional networks: visualising image clas-
+siﬁcation models and saliency maps, in: 2nd International Conference on Learning Representations,
+ICLR 2014, Banff, AB, Canada, April 14–16, 2014, Workshop Track Proceedings, 2014, pp. 14–16,arXiv:1312.6034.
+[30] Y . Chen, W . Li, C. Sakaridis, D. Dai, L.V . Gool, Domain adaptive faster R-CNN for object detection
+in the wild, CoRR, abs/1803.03243, 2018.
+[31] J. van Vugt, E. Marchiori, R. Mann, A. Gubern-Mérida, N. Moriakov, J. T euwen, Vendor-
+independent soft tissue lesion detection using weakly supervised and unsupervised adversarial domainadaptation, CoRR 2018, abs/1808.04909.

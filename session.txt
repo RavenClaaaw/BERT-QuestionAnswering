@@ -1,1 +1,1 @@
-https://www.geeksforgeeks.org/introduction-convolution-neural-network/
+https://www2.cs.uh.edu/~ceick/ai/CNN_Reading_Material.pdf

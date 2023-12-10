@@ -10,6 +10,7 @@ model = pipeline("question-answering", model=model_id)
 
 import nltk
 nltk.download('punkt')
+nltk.download('wordnet')
 
 import time
 
@@ -18,6 +19,9 @@ def getK(text):
 
 def KBERT(question, context, LIMIT = 1 + 1):
   sentences = nltk.tokenize.sent_tokenize(context)
+  
+  sentences = list(map(lambda x: x.lower(), sentences))
+  question = question.lower()
   
   KEY = getK(question)
   KEY = KEY[:max(len(KEY), LIMIT)]
@@ -30,13 +34,19 @@ def KBERT(question, context, LIMIT = 1 + 1):
 
   found = []
   nextsentences = 4
+  previoussentences = 2
+  
   for i in range(len(sentences)):
     sentence = sentences[i]
     for word in words:
       if word in sentence:
         paragraph = ""
+        for j in range(previoussentences):
+          if(i-j >= 0): paragraph += sentences[i]
+          
         for j in range(nextsentences):
           if(i+j < len(sentences)): paragraph += sentences[i]
+          
         found.append(sentence)
 
   counter = 0
