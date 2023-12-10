@@ -8,10 +8,14 @@ import time
 from selenium.common.exceptions import NoSuchElementException
 import re
 import wikipediaapi
+import requests
+from bs4 import BeautifulSoup
 
 def getcontext(url):
     if("wikipedia" in url): return getcontext_wikipedia(url)
     elif("medium" in url): return getcontext_medium(url)
+    elif("geeksforgeeks" in url): return scrape_geekforgeeks_content(url)
+    elif("hindustantimes" in url): return scrape_hindustantimes_content(url)
     else: return "-ERROR-"
 
 def getcontext_wikipedia(url):
@@ -79,3 +83,69 @@ def getcontext_medium(site):
 
     except NoSuchElementException:
         print("Could not find the main content element")
+
+# def scrape_medium_content(url):
+#     # Send a GET request to the provided URL
+#     URL_Extension = 'http://webcache.googleusercontent.com/search?q=cache:' + url
+#     response = requests.get(URL_Extension)
+
+#     if response.status_code == 200:
+#         # Parse the HTML content using BeautifulSoup
+#         soup = BeautifulSoup(response.content, 'html.parser')
+
+#         # Find the body tag and extract its content
+#         # Using find with XPath
+#         #xpath_expression = '//*[@id="bN015htcoyT__google-cache-hdr"]/div[2]/span/span[2]/a'
+#         specific_id_content = soup.find(id='root').get_text()
+#         #element_with_xpath = soup.find('div', {'class': xpath_expression}).get_text()
+#         return specific_id_content
+    
+#     else:
+#         print(f"Failed to fetch the page. Status code: {response.status_code}")
+#         return None
+
+def scrape_geekforgeeks_content(url):
+    # Send a GET request to the provided URL
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        # Parse the HTML content using BeautifulSoup
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        # Find the body tag and extract its content
+        article_content = soup.find('article').get_text()
+
+        with open("context.txt", "w+", encoding='utf-8') as file:
+            try:
+                file.write(article_content)
+                return article_content
+            except Exception as error:
+                file.write('ERROR occured: ' + str(error) + '\n')
+
+    else:
+        print(f"Failed to fetch the page. Status code: {response.status_code}")
+        return None
+
+def scrape_hindustantimes_content(url):
+    # Send a GET request to the provided URL
+    URL_Extension = 'http://webcache.googleusercontent.com/search?q=cache:' + url
+    response = requests.get(URL_Extension)
+
+    if response.status_code == 200:
+        # Parse the HTML content using BeautifulSoup
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        # Find the body tag and extract its content
+        #specific_class_content = soup.find('div', class_='fullStory tfStory current videoStory story__detail storyAf101700745055757').get_text()
+        hindustan_content = soup.find(id='dataHolder').get_text()
+
+        with open("context.txt", "w+", encoding='utf-8') as file:
+            try:
+                file.write(hindustan_content)
+                return hindustan_content
+            except Exception as error:
+                file.write('ERROR occured: ' + str(error) + '\n')    
+    else:
+        print(f"Failed to fetch the page. Status code: {response.status_code}")
+        return None
+
