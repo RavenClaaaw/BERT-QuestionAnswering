@@ -12,6 +12,7 @@ def preprocess_text(text):
 
     # Tokenize each sentence into words
     tokenized_sentences = [word_tokenize(sentence) for sentence in sentences]
+
     # Perform stemming
     stemmer = PorterStemmer()
     stemmed_sentences = [
